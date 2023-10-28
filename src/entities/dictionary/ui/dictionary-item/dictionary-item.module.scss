@@ -1,12 +1,12 @@
 .item{
   position: relative;
   display: flex;
+  align-items: center;
   gap: 25px;
-
   font-size: 18px;
   background-color: #353535;
   background-color: #212121;
-  background-color: rgb(251, 251, 253);
+  background-color: rgb(249, 249, 250);
   border: 1px solid rgb(243, 243, 247);
   padding: 25px 20px;
   color: rgb(88, 88, 91);
@@ -21,15 +21,12 @@
 
 }
 .translatedText{
+  text-transform: lowercase;
 }
 
 .listen{
-  position: absolute;
-  right: 5%;
-  font-size: 24px;
-  top: 50%;
   cursor: pointer;
-  transform: translateY(-50%);
+  opacity: .9;
 }
 .remove{
   color: #353535;

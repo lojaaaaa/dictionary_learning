@@ -1,3 +1,5 @@
+export const DICTIONARY_WORDS = 'dictionaryWords'
+
 export const dictionary = [
   {
     id: 1,

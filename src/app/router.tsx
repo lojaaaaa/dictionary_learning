@@ -1,13 +1,13 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
-import { Sidebar } from "../widgets/sidebar/Sidebar";
-import { ErrorPage } from "../pages/error/Error";
-import { DictionaryRoute } from "../pages/dictionary/route";
-import { TheoryRoute } from "../pages/theory/route";
-import { HomeRoute } from "../pages/home/route";
+import { Sidebar } from "src/widgets/sidebar/Sidebar";
+import { ErrorPage } from "src/pages/error/Error";
+import { DictionaryRoute } from "src/pages/dictionary/route";
+import { TheoryRoute } from "src/pages/theory/route";
+import { HomeRoute } from "src/pages/home/route";
 
 const MainLayout = () => (
   <>
-    <div className="flex h-screen">
+    <div className="flex h-full">
       <Sidebar />
       <main className="mx-auto min-w-[1024px] max-w-screen-2xl py-20 px-2"><Outlet/></main>
     </div>

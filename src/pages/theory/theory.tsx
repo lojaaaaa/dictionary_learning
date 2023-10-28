@@ -1,9 +1,15 @@
-import React from 'react'
+
+import style from './theory.module.scss'
 
 type Props = {}
 
+
+
+
 export function Theory({}: Props) {
   return (
-    <div>Tfdfdsddsfds</div>
+    <div className={style.wrapper}>
+        
+    </div>
   )
 }

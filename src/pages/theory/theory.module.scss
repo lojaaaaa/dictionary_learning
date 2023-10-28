@@ -1,0 +1,36 @@
+.wrapper{
+  border-radius: 10px;
+  padding: 20px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+.theory{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.cards{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.title{
+  font-weight: 500;
+  padding-bottom: 15px;
+  border-bottom: 3px solid rgb(94, 124, 244);
+  max-width: 100px;
+}
+
+.card{
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  border-right: 1px solid rgb(243, 243, 247);
+  a{
+    color: rgb(36, 27, 29);
+    color: rgb(88, 88, 91);
+  }
+}

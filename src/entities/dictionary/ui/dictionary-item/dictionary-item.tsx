@@ -1,28 +1,24 @@
-import { removeDictionaryWord } from '../../pages/dictionary/model';
-import style from './translate-item.module.scss'
-import { useRef } from 'react';
+import { removeDictionaryWord } from '../../model';
+import style from './dictionary-item.module.scss'
 
 
 interface PropsTranslateItem {
-  id: number,
+  id: string,
   originalText: string,
   transcription: string,
   translatedText: string
 }
 
-const TranslateItem = ({
+export const DictionaryItem = ({
   id,
   originalText, 
   transcription, 
   translatedText
 }: PropsTranslateItem) => {
 
-
-  const value = useRef('')
-
   const listenTranslate = () => {
     const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(value.current.innerText);
+    const utterance = new SpeechSynthesisUtterance(originalText);
     synth.speak(utterance);
   };
 
@@ -30,17 +26,17 @@ const TranslateItem = ({
     removeDictionaryWord(id)
   }
 
+
   return (
     <li className={style.item}>
-      <h3 className={style.originalText} ref={value}>{originalText}</h3>
+      <img onClick={listenTranslate} className={style.listen} src="./listen.svg" alt="listen" />
+      <p className={style.originalText}>{originalText}</p>
       <span>-</span>
       <p className={style.transcription}>{transcription}</p>
       <span>-</span>
       <p className={style.translatedText}>{translatedText}</p>
-      <span onClick={listenTranslate} className={style.listen}>🔉</span>
-      <span onClick={handleRemove} className={style.remove}>&#10006;</span>
+      <img onClick={handleRemove} className={style.remove} src="./krest.svg" alt="krest" />
     </li>
   )
 }
 
-export default TranslateItem

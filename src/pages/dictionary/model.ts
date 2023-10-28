@@ -1,4 +1,3 @@
-import { createEvent} from 'effector';
+import { createEvent } from "effector";
 
 export const routeDictionaryOpen = createEvent();
-
