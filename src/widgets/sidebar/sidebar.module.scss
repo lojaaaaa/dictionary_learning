@@ -1,0 +1,40 @@
+.sidebar{
+  padding: 25px;
+  height: 100%;
+  z-index: 1000;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 50px;
+  border-right: 1px solid rgb(243, 243, 247);
+}
+
+.logo{
+  padding-bottom: 25px;
+
+}
+
+.list{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.item{
+  min-width: 30px;
+
+}
+
+.active{
+  position: relative;
+  &::after{
+    position: absolute;
+    content: '';
+    bottom: -10px;
+    width: 30px;
+    background-color: rgb(94, 124, 244);
+    height: 3px;
+    border-radius: 6px;
+  }
+}
