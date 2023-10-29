@@ -16,6 +16,7 @@ export interface IDictionary{
 
 export const $dictionaryWords = createStore<IDictionary[]>(defaultData);
 
+export const updateDictionaryWord = createEvent<IDictionary>()
 export const addDictionaryWord = createEvent<IDictionary>()
 export const addToTranslate = createEvent<IDictionary>()
 export const removeDictionaryWord = createEvent<string>()
@@ -30,6 +31,18 @@ export const getTranslatedTextFx = createEffect(async(word: IDictionary) => {
   catch (error) {
     throw new Error('Не удалось получить перевод');
   }
+})
+
+
+sample({
+  clock: updateDictionaryWord,
+  source: $dictionaryWords,
+  fn: (words, newWord) => 
+  saveToLocalStorage(
+    words.map(word => word.id === newWord.id ? newWord : word), 
+    DICTIONARY_WORDS
+  ),
+  target: $dictionaryWords, 
 })
 
 
