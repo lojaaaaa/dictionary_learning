@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import style from './verb-forms.module.scss'
 
 type Props = {}
@@ -11,17 +12,20 @@ const verbFormsData = [
       {
         id: 1,
         name: 'Present Simple',
-        description: 'Пример: Я читаю книгу.'
+        description: 'Пример: Я читаю книгу.',
+        forms_id: 1
       },
       {
         id: 2,
         name: 'Past Simple',
-        description: 'Пример: Я прочитал книгу вчера.'
+        description: 'Пример: Я прочитал книгу вчера.',
+        forms_id: 1
       },
       {
         id: 3,
         name: 'Future Simple',
-        description: 'Пример: Я прочитаю книгу завтра.'
+        description: 'Пример: Я прочитаю книгу завтра.',
+        forms_id: 1
       }
     ]
   },
@@ -30,19 +34,22 @@ const verbFormsData = [
     forms_name: 'Continous Forms',
     items: [
       {
-        id: 1,
+        id: 4,
         name: 'Present Simple',
-        description: 'Пример: Я читаю книгу прямо сейчас.'
+        description: 'Пример: Я читаю книгу прямо сейчас.',
+        forms_id: 2
       },
       {
-        id: 2,
+        id: 5,
         name: 'Past Simple',
-        description: 'Пример: Я читал книгу вчера в это время.'
+        description: 'Пример: Я читал книгу вчера в это время.',
+        forms_id: 2
       },
       {
-        id: 3,
+        id: 6,
         name: 'Future Simple',
-        description: 'Пример: Я буду читать книгу завтра в это время.'
+        description: 'Пример: Я буду читать книгу завтра в это время.',
+        forms_id: 2
       }
     ]
   },
@@ -51,19 +58,22 @@ const verbFormsData = [
     forms_name: 'Perfect Forms',
     items: [
       {
-        id: 1,
+        id: 7,
         name: 'Present Simple',
-        description: 'Пример: Я уже прочитал книгу.'
+        description: 'Пример: Я уже прочитал книгу.',
+        forms_id: 3
       },
       {
-        id: 2,
+        id: 8,
         name: 'Past Simple',
-        description: 'Пример: Я прочитал книгу до этого момента.'
+        description: 'Пример: Я прочитал книгу до этого момента.',
+        forms_id: 3
       },
       {
-        id: 3,
+        id: 9,
         name: 'Future Simple',
-        description: 'Пример: Я прочитаю книгу до этого момента.'
+        description: 'Пример: Я прочитаю книгу до этого момента.',
+        forms_id: 3
       }
     ]
   },
@@ -72,22 +82,25 @@ const verbFormsData = [
     forms_name: 'Perfect Continuous Forms',
     items: [
       {
-        id: 1,
+        id: 10,
         name: 'Present Simple',
-        description: 'Пример: Я уже долгое время читаю книгу.'
+        description: 'Пример: Я уже долгое время читаю книгу.',
+        forms_id: 4
       },
       {
-        id: 2,
+        id: 11,
         name: 'Past Simple',
-        description: 'Пример: Я долгое время читал книгу вчера.'
+        description: 'Пример: Я долгое время читал книгу вчера.',
+        forms_id: 4
       },
       {
-        id: 3,
+        id: 12,
         name: 'Future Simple',
-        description: 'Пример: Я буду долгое время читать книгу завтра.'
+        description: 'Пример: Я буду долгое время читать книгу завтра.',
+        forms_id: 4
       }
     ]
-  },
+  }
 ];
 
 export const VerbForms = (props: Props) => {
@@ -101,7 +114,7 @@ export const VerbForms = (props: Props) => {
               <div key={item.id} className={style.card}>
                 <h3 className={style.cardTitle}>{item.name}</h3>
                 <p className={style.text}>{item.description}</p>
-                <a href='#' className={style.link}>Подробнее</a>
+                <Link to={`/theory/verb-forms/forms-${item.forms_id}/${item.id}`} className={style.link}>Подробнее</Link>
               </div>
             )}
           </div>
