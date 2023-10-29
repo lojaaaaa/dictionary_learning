@@ -27,7 +27,7 @@ export const TheoryRoute = (path: string): RouteObject => ({
   children: [
     TheoryHomeRoute(path),
     VerbFormsRoute(`${path}/verb-forms`),
-    VerbFormRoute(`${path}/verb-forms/:forms/:id`),
+    VerbFormRoute(`${path}/verb-forms/:forms_id/:id`),
     VerbRoute(`${path}/verb`)
   ],
 });

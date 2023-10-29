@@ -1,10 +1,9 @@
+import { createEvent } from "effector";
+import { createStore } from "effector/compat";
+import { sample } from "effector/effector.umd";
 
-import { Link } from 'react-router-dom';
-import style from './verb-forms.module.scss'
 
-type Props = {}
-
-export const verbFormsData = [
+export const defaultData = [
   {
     forms_id: 'simple-forms',
     forms_name: 'Simple Forms',
@@ -103,23 +102,14 @@ export const verbFormsData = [
   }
 ];
 
-export const VerbForms = (props: Props) => {
-  return (
-    <>
-      {verbFormsData.map(el => (
-        <div key={el.forms_id}>
-          <h2 className={style.title}>{el.forms_name}</h2>
-          <div className={style.cards}>
-            {el.items.map(item => 
-              <div key={item.id} className={style.card}>
-                <h3 className={style.cardTitle}>{item.name}</h3>
-                <p className={style.text}>{item.description}</p>
-                <Link to={`/theory/verb-forms/${item.forms_id}/${item.id}`} className={style.link}>Подробнее</Link>
-              </div>
-            )}
-          </div>
-        </div>
-      ))}
-    </>
-  )
-}
+export const $verbForms = createStore(defaultData);
+export const $currentVerbForms = createStore(null)
+
+export const getVerbFormById = createEvent()
+
+sample({
+  clock: getVerbFormById,
+  source: $verbForms,
+  fn: (forms, params) => forms.find(el => el.forms_id == params.forms_id)?.items.find(el => el.id == params.id),
+  target: $currentVerbForms, 
+})
