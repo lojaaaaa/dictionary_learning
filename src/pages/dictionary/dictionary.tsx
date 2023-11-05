@@ -33,16 +33,18 @@ export const DictionaryView: FC<DictionaryProps> = ({
         transcription: `[${transcription}]`, 
         translatedText 
       }
-
-    if(translatedText){
-      addDictionaryWord(newWord)
+    
+    if(originalText !== ''){
+      if(translatedText){
+        addDictionaryWord(newWord)
+      }
+      else{
+        addToTranslate(newWord)
+      }
+      setOriginalText('')
+      setTranscription('')
+      setTranslatedText('')
     }
-    else{
-      addToTranslate(newWord)
-    }
-    setOriginalText('')
-    setTranscription('')
-    setTranslatedText('')
   }
 
   return (

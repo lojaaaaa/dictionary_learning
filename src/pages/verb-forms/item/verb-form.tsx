@@ -16,31 +16,32 @@ export const VerbForm = (props: Props) => {
       <section className={style.section}>
         <h3 className={style.title}>{formName} - простое настоящее время</h3>
         <div className={style.content}>
-          <p className={style.text}>Время {formName} обозначает действие в настоящем в широком смысле слова. Оно употребляется для обозначения обычных, регулярно повторяющихся или постоянных действий, например, когда мы говорим о чьих-либо привычках, режиме дня, расписании и т. д., т. е. Present Simple обозначает действия, которые происходят в настоящее время, но не привязаны именно к моменту речи.</p>
+          <p className={style.text}>{currentForm.description}</p>
           <ul className={style.examples}>
-            <li>
-              <p className={style.examplesTitle}>I live in London</p>
-              <p className={style.exapmlesText}>Я живу в Лондоне</p>
-            </li>
-            <li>
-              <p className={style.examplesTitle}>The meeting starts at 6 o'clock</p>
-              <p className={style.exapmlesText}>Собрание начинается в шесть часов</p>
-            </li>
+            {currentForm.examples.map(el => 
+              <li key={el.id}>
+                <p className={style.examplesTitle}>{el.original}</p>
+                <p className={style.exapmlesText}>{el.translated}</p>
+              </li>
+            )}
           </ul>
         </div>
       </section>
       <section className={style.section}>
         <h3 className={style.title}>Образование {formName}</h3>
-        <div>
-          <div>
-            <h4>Утвердительные предложения</h4>
-          </div>
-          <div>
-            <h4>Вопросительные предложения</h4>
-          </div>
-          <div>
-            <h4>Отрицательные предложения</h4>
-          </div>
+        <div className={style.content}>
+          {currentForm.formation.map(el => 
+            <div>
+              <h4>{el.name}</h4>
+              <ul className={style.examples}>
+                {el.list.map(el =>
+                  <li>
+                    <p className={style.exapmlesText}>{el.rule}</p>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
         </div>
       </section>
       <section className={style.section}>

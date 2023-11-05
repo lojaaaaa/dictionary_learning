@@ -23,10 +23,15 @@ export const removeDictionaryWord = createEvent<string>()
 
 export const getTranslatedTextFx = createEffect(async(word: IDictionary) => {
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${word.originalText}!&langpair=EN|RU`
+    // const url = `https://api.mymemory.translated.net/get?q=${word.originalText}!&langpair=EN|RU`
+    const url = `https://dictionary.skyeng.ru/api/public/v1/words/search?search=${word.originalText}`
     const res = await fetch(url)
     const data = await res.json()
-    return {...word, translatedText: data.responseData.translatedText}
+    return {
+      ...word, 
+      transcription: `[${data[0].meanings[0].transcription}]`, 
+      translatedText: data[0].meanings[0].translation.text
+    }
   } 
   catch (error) {
     throw new Error('Не удалось получить перевод');
