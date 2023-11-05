@@ -5,7 +5,14 @@ export const Sidebar = () => {
   const location = useLocation();
 
   const isActive = (path: string) => {
-    const activeItem = location.pathname === path ? style.active : style.item
+    let activeItem
+    if(path !== '/'){
+      activeItem = location.pathname.includes(path) ? style.active : style.item
+    }
+    else{
+      activeItem = location.pathname === path ? style.active : style.item
+    }
+
     return activeItem;
   };
 

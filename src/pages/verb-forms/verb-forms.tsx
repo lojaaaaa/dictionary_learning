@@ -1,94 +1,11 @@
 
+import { Link } from 'react-router-dom';
 import style from './verb-forms.module.scss'
+import { verbFormsData } from 'src/shared/config';
+
 
 type Props = {}
 
-const verbFormsData = [
-  {
-    forms_id: 1,
-    forms_name: 'Simple Forms',
-    items: [
-      {
-        id: 1,
-        name: 'Present Simple',
-        description: 'Пример: Я читаю книгу.'
-      },
-      {
-        id: 2,
-        name: 'Past Simple',
-        description: 'Пример: Я прочитал книгу вчера.'
-      },
-      {
-        id: 3,
-        name: 'Future Simple',
-        description: 'Пример: Я прочитаю книгу завтра.'
-      }
-    ]
-  },
-  {
-    forms_id: 2,
-    forms_name: 'Continous Forms',
-    items: [
-      {
-        id: 1,
-        name: 'Present Simple',
-        description: 'Пример: Я читаю книгу прямо сейчас.'
-      },
-      {
-        id: 2,
-        name: 'Past Simple',
-        description: 'Пример: Я читал книгу вчера в это время.'
-      },
-      {
-        id: 3,
-        name: 'Future Simple',
-        description: 'Пример: Я буду читать книгу завтра в это время.'
-      }
-    ]
-  },
-  {
-    forms_id: 3,
-    forms_name: 'Perfect Forms',
-    items: [
-      {
-        id: 1,
-        name: 'Present Simple',
-        description: 'Пример: Я уже прочитал книгу.'
-      },
-      {
-        id: 2,
-        name: 'Past Simple',
-        description: 'Пример: Я прочитал книгу до этого момента.'
-      },
-      {
-        id: 3,
-        name: 'Future Simple',
-        description: 'Пример: Я прочитаю книгу до этого момента.'
-      }
-    ]
-  },
-  {
-    forms_id: 4,
-    forms_name: 'Perfect Continuous Forms',
-    items: [
-      {
-        id: 1,
-        name: 'Present Simple',
-        description: 'Пример: Я уже долгое время читаю книгу.'
-      },
-      {
-        id: 2,
-        name: 'Past Simple',
-        description: 'Пример: Я долгое время читал книгу вчера.'
-      },
-      {
-        id: 3,
-        name: 'Future Simple',
-        description: 'Пример: Я буду долгое время читать книгу завтра.'
-      }
-    ]
-  },
-];
 
 export const VerbForms = (props: Props) => {
   return (
@@ -100,8 +17,8 @@ export const VerbForms = (props: Props) => {
             {el.items.map(item => 
               <div key={item.id} className={style.card}>
                 <h3 className={style.cardTitle}>{item.name}</h3>
-                <p className={style.text}>{item.description}</p>
-                <a href='#' className={style.link}>Подробнее</a>
+                <p className={style.text}>{item.example}</p>
+                <Link to={`/theory/verb-forms/${item.forms_id}/${item.id}`} className={style.link}>Подробнее</Link>
               </div>
             )}
           </div>

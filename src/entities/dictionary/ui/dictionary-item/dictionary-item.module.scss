@@ -12,10 +12,14 @@
   color: rgb(88, 88, 91);
   color: rgb(36, 27, 29);
   border-radius: 6px;
+  input{
+    outline: 0;
+    border: none;
+  }
 }
 .originalText{
-  text-transform: capitalize;
 
+  text-transform: capitalize
 }
 .transcription{
 
@@ -36,4 +40,26 @@
   top: 50%;
   cursor: pointer;
   transform: translateY(-50%);
+}
+.edit{
+  position: absolute;
+  right: 5%;
+  font-size: 24px;
+  top: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.mark{
+  max-width: 24px;
+  position: absolute;
+  right: 8%;
+  font-size: 24px;
+  top: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.dash{
+  font-size: 24px;
+  color: rgb(94, 124, 244);
 }

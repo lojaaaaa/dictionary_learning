@@ -1,10 +1,12 @@
 import { reflect } from "@effector/reflect"
-import { FC, useState } from "react"
+import { FC } from "react"
 
 import { IDictionary } from "src/entities/dictionary/model";
 import { DictionaryItem, dictionaryEntity } from 'src/entities/dictionary/index';
 
 import style from './dictionary.module.scss'
+import { useForm } from "react-hook-form";
+import { ErrorLabel } from "src/shared/ui/error/ErrorLabel";
 
 
 
@@ -21,54 +23,60 @@ export const DictionaryView: FC<DictionaryProps> = ({
   addToTranslate
   }) =>{
 
-  const [originalText, setOriginalText] = useState<string>('')
-  const [transcription, setTranscription] = useState<string>('')
-  const [translatedText, setTranslatedText] = useState<string>('')
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<any>({
+    defaultValues: {
+      originalText: '',
+      transcription: '',
+      translatedText: ''
+    },
+  });
 
-  const handleClickAdd = () =>{
-    const newWord = 
-      { 
-        id: '',
-        originalText, 
-        transcription: `[${transcription}]`, 
-        translatedText 
-      }
 
-    if(translatedText){
-      addDictionaryWord(newWord)
+  const handleForm = (data) =>{
+    if(data.translatedText){
+      addDictionaryWord(data)
     }
     else{
-      addToTranslate(newWord)
+      addToTranslate(data)
     }
-    setOriginalText('')
-    setTranscription('')
-    setTranslatedText('')
+    reset()
   }
+
+  const originalTextError = errors.originalText ? 'Напишите слово' : '';
 
   return (
     <div className={style.wrapper}>
-      <form className={style.form} onSubmit={e => e.preventDefault()}>
+      <form className={style.form} onSubmit={handleSubmit(handleForm)}>
         <div className={style.inputs}>
-          <input 
-            value={originalText} 
-            onChange={e => setOriginalText(e.target.value)} 
-            type="text" 
-            placeholder="Слово"
-          />
-          <input
-            value={transcription}  
-            onChange={e => setTranscription(e.target.value)} 
-            type="text" 
-            placeholder="Транскрипция"
-          />
-          <input 
-            value={translatedText} 
-            onChange={e => setTranslatedText(e.target.value)} 
-            type="text" 
-            placeholder="Перевод"
-          />
+          <div>
+            <input 
+              type="text" 
+              placeholder="Слово"
+              {...register('originalText', { required: true })}
+            />
+            {originalTextError ? <ErrorLabel>{originalTextError}</ErrorLabel> : null}
+          </div>
+          <div>
+            <input
+              type="text" 
+              placeholder="Транскрипция"
+              {...register('transcription', { required: false })}
+            />
+          </div>
+          <div>
+            <input 
+              type="text" 
+              placeholder="Перевод"
+              {...register('translatedText', { required: false })}
+            />
+          </div>
         </div>
-        <button onClick={handleClickAdd}>Добавить слово</button>
+        <button>Добавить слово</button>
       </form>
       <ul className={style.list}>
         {
