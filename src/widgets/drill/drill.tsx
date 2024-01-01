@@ -7,24 +7,39 @@ import {
   $currentSentenceIndex, 
   $sentences, 
   $updatedCurrentSentence, 
+  setCurrentSentence, 
+  setSentences, 
+  setUpdatedCurrentSentence, 
   updateCurrentSentenceIndex, 
   updateTranslatedWords 
 } from './model';
 import { useStore } from 'effector-react';
+import { Link } from 'react-router-dom';
 
 const shuffleArray = (array) => {
   return array.slice().sort(() => Math.random() - 0.5);
 };
 
-type Props = {}
+type Props = {
+  items: any
+}
 
-export const Drill = (props: Props) => {
+export const Drill = ({items}: Props) => {
+
+  useEffect(()=>{
+    setSentences(items);
+    setCurrentSentence(items[0]);
+    setUpdatedCurrentSentence(items[0]);
+  }, [])
 
   const sentences = useStore($sentences)
   const currentSentence = useStore($currentSentence)
   const updatedCurrentSentence = useStore($updatedCurrentSentence)
   const currentSentenceIndex = useStore($currentSentenceIndex)
 
+
+
+  console.log(items)
 
   const [error, setError] = useState('')
   const [isClickedComplete, setIsClickedComplete] = useState(false)
@@ -119,10 +134,17 @@ export const Drill = (props: Props) => {
           </div>
           : <div className='flex flex-col gap-6'>
               <p className='text-center text-xl'>Молодец, ты прошел!</p>
-              <button 
-                onClick={() => setIsClickedComplete(false)}>
-                Пройти еще раз
-              </button>
+              <div className='flex justify-center gap-6'>
+                <button 
+                  onClick={() => setIsClickedComplete(false)}>
+                  Пройти еще раз
+                </button>
+                <button>
+                  <Link to={`/`}>
+                    Вернуться к тренажерам
+                  </Link>
+                </button>
+              </div>
             </div>
         }
 

@@ -4,8 +4,6 @@ import { sample } from "effector/effector.umd";
 import { verbFormsData } from "src/shared/config";
 
 
-
-
 export const $verbForms = createStore(verbFormsData);
 export const $currentVerbForms = createStore(null)
 

@@ -4,6 +4,10 @@
   border-radius: 10px;
 }
 .content{
+  background-color: white;
+  padding: 20px 50px;
+  height: 100vh;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -19,6 +23,9 @@
 }
 .card{
   border: 1px solid black;
+  color: rgb(94, 124, 244);
+  border: 1px solid rgb(94, 124, 244);
+  text-align: center;
   padding: 15px 25px;
   border-radius: 6px;
 }
@@ -74,4 +81,13 @@
 }
 .buttonNext{
   align-self: flex-end;
+}
+
+
+.cards{
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  justify-content: center;
+  gap: 35px;
 }

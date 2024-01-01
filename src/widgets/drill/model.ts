@@ -90,6 +90,32 @@ export const $currentSentenceIndex = createStore<number>(0);
 export const updateTranslatedWords = createEvent();
 export const updateCurrentSentenceIndex = createEvent<number>();
 
+export const setSentences = createEvent();
+export const setCurrentSentence = createEvent();
+export const setUpdatedCurrentSentence = createEvent();
+
+
+sample({
+  clock: setSentences,
+  target: $sentences
+})
+
+sample({
+  clock: setCurrentSentence,
+  target: $currentSentence
+})
+
+sample({
+  clock: setUpdatedCurrentSentence,
+  target: $updatedCurrentSentence
+})
+
+
+
+
+
+
+
 sample({
   clock: updateCurrentSentenceIndex,
   source: $sentences,

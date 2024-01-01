@@ -4,6 +4,7 @@ import { ErrorPage } from "src/pages/error/Error";
 import { DictionaryRoute } from "src/pages/dictionary/route";
 import { TheoryRoute } from "src/pages/theory/route";
 import { HomeRoute } from "src/pages/home/route";
+import { DrillRoute } from "src/pages/home/item/route";
 
 const MainLayout = () => (
   <>
@@ -20,6 +21,11 @@ export const createRouter = () => createBrowserRouter([
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     children: [HomeRoute('/')],
+  },
+  {
+    element: <MainLayout />,
+    errorElement: <ErrorPage />,
+    children: [DrillRoute('/drill/:id')],
   },
   {
     element: <MainLayout />,
