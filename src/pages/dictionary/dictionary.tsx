@@ -1,5 +1,5 @@
 import { reflect } from "@effector/reflect"
-import { FC } from "react"
+import { FC, useState } from "react"
 
 import { IDictionary } from "src/entities/dictionary/model";
 import { DictionaryItem, dictionaryEntity } from 'src/entities/dictionary/index';
@@ -7,8 +7,7 @@ import { DictionaryItem, dictionaryEntity } from 'src/entities/dictionary/index'
 import style from './dictionary.module.scss'
 import { useForm } from "react-hook-form";
 import { ErrorLabel } from "src/shared/ui/error/ErrorLabel";
-
-
+import Pagination from './../../shared/ui/pagination/Pagination';
 
 
 interface DictionaryProps {
@@ -49,6 +48,18 @@ export const DictionaryView: FC<DictionaryProps> = ({
 
   const originalTextError = errors.originalText ? 'Напишите слово' : '';
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 8;
+
+  const lastWordIndex = currentPage * perPage;
+  const firstWordIndex = lastWordIndex - perPage;
+  const currentWordIndex = 
+    lastWordIndex > dictionaryWords.length 
+      ? lastWordIndex - perPage + dictionaryWords.length % perPage
+      : lastWordIndex
+
+  const filteredDictionaryWords = dictionaryWords.slice(firstWordIndex, lastWordIndex)
+
   return (
     <div className={style.wrapper}>
       <form className={style.form} onSubmit={handleSubmit(handleForm)}>
@@ -82,8 +93,8 @@ export const DictionaryView: FC<DictionaryProps> = ({
         {
           dictionaryWords?.length > 0 &&
           <>
-            <h2>Cписок слов: {dictionaryWords.length}</h2>
-            {dictionaryWords?.map(el =>
+            <h2>Cписок слов: {currentWordIndex}/{dictionaryWords.length}</h2>
+            {filteredDictionaryWords?.map(el =>
               <DictionaryItem 
                 id={el.id}
                 key={el.id} 
@@ -95,6 +106,12 @@ export const DictionaryView: FC<DictionaryProps> = ({
           </>
         }
       </ul>
+      <Pagination 
+        totalCount={dictionaryWords.length}
+        perPage={perPage}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   )
 }

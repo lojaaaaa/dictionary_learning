@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { removeDictionaryWord, updateDictionaryWord } from '../../model';
 import style from './dictionary-item.module.scss'
+import { listenTranslate } from 'src/shared/libs/saveToLocalStorage';
 
 
 interface PropsTranslateItem {
@@ -23,11 +24,10 @@ export const DictionaryItem = ({
   const [editedTranscription, setEditedTranscription] = useState<string>(transcription)
   const [editedTranslatedText, setEditedTranslatedText] = useState<string>(translatedText)
 
-  const listenTranslate = () => {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(originalText);
-    synth.speak(utterance);
-  };
+
+  const handleListen = () =>{
+    listenTranslate(originalText)
+  }
 
   const handleRemove = () =>{
     removeDictionaryWord(id)
@@ -42,7 +42,6 @@ export const DictionaryItem = ({
       transcription: editedTranscription, 
       translatedText: editedTranslatedText
     }
-    console.log(editedDictionaryWord)
     updateDictionaryWord(editedDictionaryWord)
   }
 
@@ -55,11 +54,10 @@ export const DictionaryItem = ({
     }
   }
 
-
   return (
     <li className={style.item}>
       <img 
-        onClick={listenTranslate} 
+        onClick={handleListen} 
         className={style.listen} 
         src="./listen.svg" 
         alt="listen" 
@@ -78,7 +76,7 @@ export const DictionaryItem = ({
         className={style.transcription} 
         value={editedTranscription} 
         onChange={e => setEditedTranscription(e.target.value)}
-        />
+      />
       <span className={style.dash}>-</span>
 
       <input 
@@ -86,9 +84,12 @@ export const DictionaryItem = ({
         className={style.translatedText} 
         value={editedTranslatedText} 
         onChange={e => setEditedTranslatedText(e.target.value)}
-        />
+      />
 
-      {isEditItem && <img onClick={handleUpdate} className={style.mark} src="./mark.svg" alt="mark"/>}
+      {
+        isEditItem && 
+        <img onClick={handleUpdate} className={style.mark} src="./mark.svg" alt="mark"/>
+      }
 
       <img 
         onClick={handleToggleUpdate} 
