@@ -90,7 +90,7 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
               type="text" 
               placeholder="Поиск слова"
             />
-            <button onClick={handleFindDictionaryWord} disabled={searchValue === ''}>
+            <button onClick={handleFindDictionaryWord}>
               Поиск
             </button>
           </div>
