@@ -48,6 +48,10 @@ export const DictionaryView: FC<DictionaryProps> = ({
 
   const originalTextError = errors.originalText ? 'Напишите слово' : '';
 
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'date'>('date');
+
+  const [filteredDictionaryWords, setFilteredDictionaryWords] = useState(dictionaryWords);
+
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 8;
 
@@ -58,7 +62,29 @@ export const DictionaryView: FC<DictionaryProps> = ({
       ? lastWordIndex - perPage + dictionaryWords.length % perPage
       : lastWordIndex
 
-  const filteredDictionaryWords = dictionaryWords.slice(firstWordIndex, lastWordIndex)
+  const displayedDictionaryWords = filteredDictionaryWords.slice(firstWordIndex, lastWordIndex);
+
+
+  const handleSortByAlphabet = () => {
+    let sortedDictionaryWords: IDictionary[] = [];
+    sortedDictionaryWords = [...filteredDictionaryWords]
+      .sort((a, b) =>a.originalText.localeCompare(b.originalText));
+
+    setFilteredDictionaryWords(sortedDictionaryWords);
+  }
+
+  const handleSortBoAlphabet = () => {
+    let sortedDictionaryWords: IDictionary[] = [];
+    sortedDictionaryWords = [...filteredDictionaryWords]
+      .sort((a, b) =>b.originalText.localeCompare(a.originalText));
+
+    setFilteredDictionaryWords(sortedDictionaryWords);
+  }
+
+  const handleSortByDate = () => {
+    setFilteredDictionaryWords(dictionaryWords);
+  }
+  
 
   return (
     <div className={style.wrapper}>
@@ -89,12 +115,21 @@ export const DictionaryView: FC<DictionaryProps> = ({
         </div>
         <button>Добавить слово</button>
       </form>
+      <div className="mt-8 mb-8">
+        <h2>Фильтровать</h2>
+        <div className="flex justify-center gap-4">
+          <button onClick={handleSortByAlphabet}>По алфавиту</button>
+          <button onClick={handleSortBoAlphabet}>В обратном порядке</button>
+          <button onClick={handleSortByDate}>По дате </button>
+        </div>
+      </div>
+
       <ul className={style.list}>
         {
           dictionaryWords?.length > 0 &&
           <>
             <h2>Cписок слов: {currentWordIndex}/{dictionaryWords.length}</h2>
-            {filteredDictionaryWords?.map(el =>
+            {displayedDictionaryWords?.map(el =>
               <DictionaryItem 
                 id={el.id}
                 key={el.id} 
