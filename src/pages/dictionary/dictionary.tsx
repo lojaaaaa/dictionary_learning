@@ -3,54 +3,25 @@ import { FC, useEffect, useState } from "react"
 
 import { IDictionary } from "src/entities/dictionary/model";
 import { DictionaryItem, dictionaryEntity } from 'src/entities/dictionary/index';
+import {AddDictionaryWordButton} from 'src/features/addDictionaryWord/ui/AddDictionaryWordButton';
+import Pagination from 'src/shared/ui/pagination/Pagination';
 
 import style from './dictionary.module.scss'
-import { useForm } from "react-hook-form";
-import { ErrorLabel } from "src/shared/ui/error/ErrorLabel";
-import Pagination from './../../shared/ui/pagination/Pagination';
 
 
 interface DictionaryProps {
   dictionaryWords: IDictionary[];
-  addDictionaryWord: (dictionaryWord: IDictionary) => void;
-  addToTranslate: (dictionaryWord: IDictionary) => void;
 }
 
-export const DictionaryView: FC<DictionaryProps> = ({
-  dictionaryWords,
-  addDictionaryWord,
-  addToTranslate
-  }) =>{
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm<any>({
-    defaultValues: {
-      originalText: '',
-      transcription: '',
-      translatedText: ''
-    },
-  });
-
-
-  const handleForm = (data) =>{
-    if(data.translatedText){
-      addDictionaryWord(data)
-    }
-    else{
-      addToTranslate(data)
-    }
-    reset()
-  }
+export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
 
   useEffect(() => {
-    setFilteredDictionaryWords(dictionaryWords)
+    setFilteredDictionaryWords(dictionaryWords);
   }, [dictionaryWords])
 
-  const originalTextError = errors.originalText ? 'Напишите слово' : '';
+  const [isSortByAlphabet, setIsSortByAlphabet] = useState(false);
+  const [isSortBoAlphabet, setIsSortBoAlphabet] = useState(false);
+  const [isSortByDate, setIsSortByDate] = useState(true);
 
   const [searchValue, setSearchValue] = useState('');
   const [filteredDictionaryWords, setFilteredDictionaryWords] = useState(dictionaryWords);
@@ -67,13 +38,15 @@ export const DictionaryView: FC<DictionaryProps> = ({
 
   const displayedDictionaryWords = filteredDictionaryWords.slice(firstWordIndex, lastWordIndex);
 
-
   const handleSortByAlphabet = () => {
     let sortedDictionaryWords: IDictionary[] = [];
     sortedDictionaryWords = [...filteredDictionaryWords]
       .sort((a, b) =>a.originalText.localeCompare(b.originalText));
 
     setFilteredDictionaryWords(sortedDictionaryWords);
+    setIsSortByAlphabet(true);
+    setIsSortBoAlphabet(false);
+    setIsSortByDate(false);
   }
 
   const handleSortBoAlphabet = () => {
@@ -82,71 +55,48 @@ export const DictionaryView: FC<DictionaryProps> = ({
       .sort((a, b) =>b.originalText.localeCompare(a.originalText));
 
     setFilteredDictionaryWords(sortedDictionaryWords);
+    setIsSortByAlphabet(false);
+    setIsSortBoAlphabet(true);
+    setIsSortByDate(false);
   }
 
   const handleSortByDate = () => {
     setFilteredDictionaryWords(dictionaryWords);
+    setIsSortByAlphabet(false);
+    setIsSortBoAlphabet(false);
+    setIsSortByDate(true);
   }
 
   const handleFindDictionaryWord = () => {
-    setFilteredDictionaryWords(
-      dictionaryWords.filter((d) => d.originalText.includes(searchValue))
-    )
-    setCurrentPage(1);
+    if(searchValue){
+      setFilteredDictionaryWords(
+        dictionaryWords.filter((d) => d.originalText.includes(searchValue))
+      );
+      setCurrentPage(1);
+    }
+
   }
   
-
   return (
     <div className={style.wrapper}>
-      <form className={style.form} onSubmit={handleSubmit(handleForm)}>
-        <div className={style.inputs}>
-          <div>
+      <div className=" mt-8 mb-8">
+        <div>
+          {/* <h2>Поиск слова</h2> */}
+          <div className="flex justify-end gap-4">
             <input 
+              className={style.input}
+              value={searchValue} 
+              onChange={(e) => setSearchValue(e.target.value)} 
               type="text" 
-              placeholder="Слово"
-              {...register('originalText', { required: true })}
+              placeholder="Поиск слова"
             />
-            {originalTextError ? <ErrorLabel>{originalTextError}</ErrorLabel> : null}
+            <button onClick={handleFindDictionaryWord} disabled={searchValue === ''}>
+              Поиск
+            </button>
           </div>
-          <div>
-            <input
-              type="text" 
-              placeholder="Транскрипция"
-              {...register('transcription', { required: false })}
-            />
-          </div>
-          <div>
-            <input 
-              type="text" 
-              placeholder="Перевод"
-              {...register('translatedText', { required: false })}
-            />
-          </div>
-        </div>
-        <button>Добавить слово</button>
-      </form>
-      <div className="mt-8 mb-8">
-        <h2>Фильтровать</h2>
-        <div className="flex justify-center gap-4">
-          <button onClick={handleSortByAlphabet}>По алфавиту</button>
-          <button onClick={handleSortBoAlphabet}>В обратном порядке</button>
-          <button onClick={handleSortByDate}>По дате </button>
         </div>
       </div>
 
-      <div className="mt-8 mb-8">
-        <h2>Поиск слова</h2>
-        <div className="flex justify-center gap-4">
-          <input 
-            value={searchValue} 
-            onChange={(e) => setSearchValue(e.target.value)} 
-            type="text" 
-            placeholder="Найти английское слово"
-          />
-          <button onClick={handleFindDictionaryWord}>Поиск</button>
-        </div>
-
-      </div>
 
       <div>
         {
@@ -154,7 +104,17 @@ export const DictionaryView: FC<DictionaryProps> = ({
           ? 
             <>
               <ul className={style.list}>
-                <h2>Cписок слов: {currentWordIndex}/{filteredDictionaryWords.length}</h2>
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex items-center gap-4">
+                    <h3 className={style.title}>Показано слов: {currentWordIndex} из {filteredDictionaryWords.length}</h3>
+                    <AddDictionaryWordButton />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <button className={style.button} onClick={handleSortByAlphabet} disabled={isSortByAlphabet}>По алфавиту ↑</button>
+                    <button className={style.button} onClick={handleSortBoAlphabet} disabled={isSortBoAlphabet}>По алфавиту ↓</button>
+                    <button className={style.button} onClick={handleSortByDate} disabled={isSortByDate}>По дате ↑</button>
+                  </div>
+                </div>
                 {displayedDictionaryWords?.map(el =>
                   <DictionaryItem 
                     id={el.id}
@@ -175,7 +135,6 @@ export const DictionaryView: FC<DictionaryProps> = ({
           : <p>Пока здесь пусто</p>
         }
       </div>
-
     </div>
   )
 }
@@ -184,7 +143,5 @@ export const Dictionary = reflect({
   view: DictionaryView,
   bind: {
     dictionaryWords: dictionaryEntity.$dictionaryWords,
-    addDictionaryWord: dictionaryEntity.addDictionaryWord,
-    addToTranslate: dictionaryEntity.addToTranslate
   },
 });

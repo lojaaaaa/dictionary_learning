@@ -56,19 +56,22 @@ export const DictionaryItem = ({
 
   return (
     <li className={style.item}>
-      <img 
-        onClick={handleListen} 
-        className={style.listen} 
-        src="./listen.svg" 
-        alt="listen" 
-      />
+      <div className='flex gap-8'>
+        <img 
+          onClick={handleListen} 
+          className={style.listen} 
+          src="./listen.svg" 
+          alt="listen" 
+        />
 
-      <input 
-        readOnly={!isEditItem} 
-        className={style.originalText} 
-        value={editedOriginalText} 
-        onChange={e => setEditedOriginalText(e.target.value)}
-      />
+        <input 
+          readOnly={!isEditItem} 
+          className={style.originalText} 
+          value={editedOriginalText} 
+          onChange={e => setEditedOriginalText(e.target.value)}
+        />
+      </div>
+
       <span className={style.dash}>-</span>
 
       <input 
