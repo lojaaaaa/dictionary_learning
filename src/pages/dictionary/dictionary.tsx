@@ -1,5 +1,5 @@
 import { reflect } from "@effector/reflect"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 
 import { IDictionary } from "src/entities/dictionary/model";
 import { DictionaryItem, dictionaryEntity } from 'src/entities/dictionary/index';
@@ -46,10 +46,13 @@ export const DictionaryView: FC<DictionaryProps> = ({
     reset()
   }
 
+  useEffect(() => {
+    setFilteredDictionaryWords(dictionaryWords)
+  }, [dictionaryWords])
+
   const originalTextError = errors.originalText ? 'Напишите слово' : '';
 
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'date'>('date');
-
+  const [searchValue, setSearchValue] = useState('');
   const [filteredDictionaryWords, setFilteredDictionaryWords] = useState(dictionaryWords);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,8 +61,8 @@ export const DictionaryView: FC<DictionaryProps> = ({
   const lastWordIndex = currentPage * perPage;
   const firstWordIndex = lastWordIndex - perPage;
   const currentWordIndex = 
-    lastWordIndex > dictionaryWords.length 
-      ? lastWordIndex - perPage + dictionaryWords.length % perPage
+    lastWordIndex > filteredDictionaryWords.length 
+      ? lastWordIndex - perPage + filteredDictionaryWords.length % perPage
       : lastWordIndex
 
   const displayedDictionaryWords = filteredDictionaryWords.slice(firstWordIndex, lastWordIndex);
@@ -83,6 +86,13 @@ export const DictionaryView: FC<DictionaryProps> = ({
 
   const handleSortByDate = () => {
     setFilteredDictionaryWords(dictionaryWords);
+  }
+
+  const handleFindDictionaryWord = () => {
+    setFilteredDictionaryWords(
+      dictionaryWords.filter((d) => d.originalText.includes(searchValue))
+    )
+    setCurrentPage(1);
   }
   
 
@@ -124,29 +134,48 @@ export const DictionaryView: FC<DictionaryProps> = ({
         </div>
       </div>
 
-      <ul className={style.list}>
+      <div className="mt-8 mb-8">
+        <h2>Поиск слова</h2>
+        <div className="flex justify-center gap-4">
+          <input 
+            value={searchValue} 
+            onChange={(e) => setSearchValue(e.target.value)} 
+            type="text" 
+            placeholder="Найти английское слово"
+          />
+          <button onClick={handleFindDictionaryWord}>Поиск</button>
+        </div>
+
+      </div>
+
+      <div>
         {
-          dictionaryWords?.length > 0 &&
-          <>
-            <h2>Cписок слов: {currentWordIndex}/{dictionaryWords.length}</h2>
-            {displayedDictionaryWords?.map(el =>
-              <DictionaryItem 
-                id={el.id}
-                key={el.id} 
-                originalText={el.originalText}
-                transcription={el.transcription}
-                translatedText={el.translatedText}
+          filteredDictionaryWords?.length > 0
+          ? 
+            <>
+              <ul className={style.list}>
+                <h2>Cписок слов: {currentWordIndex}/{filteredDictionaryWords.length}</h2>
+                {displayedDictionaryWords?.map(el =>
+                  <DictionaryItem 
+                    id={el.id}
+                    key={el.id} 
+                    originalText={el.originalText}
+                    transcription={el.transcription}
+                    translatedText={el.translatedText}
+                  />
+                )}
+              </ul>
+              <Pagination 
+                totalCount={filteredDictionaryWords.length}
+                perPage={perPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
-            )}
-          </>
+            </>
+          : <p>Пока здесь пусто</p>
         }
-      </ul>
-      <Pagination 
-        totalCount={dictionaryWords.length}
-        perPage={perPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      </div>
+
     </div>
   )
 }
