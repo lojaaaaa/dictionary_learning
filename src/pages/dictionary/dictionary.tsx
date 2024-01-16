@@ -96,8 +96,6 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
           </div>
         </div>
       </div>
-
-
       <div>
         {
           filteredDictionaryWords?.length > 0
@@ -132,7 +130,11 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
                 setCurrentPage={setCurrentPage}
               />
             </>
-          : <p>Пока здесь пусто</p>
+          : 
+          <div className="flex items-center gap-4">
+            <p>Пока здесь пусто</p>
+            <AddDictionaryWordButton />
+          </div>
         }
       </div>
     </div>
