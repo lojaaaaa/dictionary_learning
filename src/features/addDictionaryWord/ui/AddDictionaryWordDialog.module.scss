@@ -1,0 +1,46 @@
+.title{
+  font-size: 24px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.dialog{
+  padding: 25px;
+  min-width: 500px;
+}
+
+
+.list{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 6px;
+  margin-bottom: 45px;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  .inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    div{
+      width: 100%;
+    }
+  }
+  input{
+    width: 100%;
+    padding: 15px;
+    outline: 0;
+  }
+}
+
+.button{
+  background-color: rgb(94, 124, 244);
+  color: rgb(255, 255, 255);
+  font-size: 18px;
+  padding: 8px 16px;
+  padding: 10px;
+  font-size: 16px;
+}

@@ -127,7 +127,7 @@ export const dictionary = [
     transcription: '[ɪˈstæblɪʃɪz]',
     translatedText: 'устанавливает, создает'
   },
-]
+];
 
 export const verbFormsData = [
   {
@@ -864,3 +864,151 @@ export const verbFormsData = [
   }
   
 ];
+
+export const drillsData = [
+  {
+    drill_id: '1',
+    drill_name: 'Present Perfect',
+    data: [
+      {
+        id: '1',
+        original: 'Я только что закончил свою домашнюю работу.',
+        translated: 'I have just finished my homework',
+        translatedWords: [
+          { id: '4', text: 'finished' },
+          { id: '6', text: 'homework' },
+          { id: '3', text: 'just' },
+          { id: '2', text: 'have' },
+          { id: '5', text: 'my' },
+          { id: '1', text: 'I' },
+        ],
+      },
+      {
+        id: '2',
+        original: 'Они уже посетили этот музей.',
+        translated: 'They have already visited this museum',
+        translatedWords: [
+          { id: '1', text: 'They' },
+          { id: '4', text: 'visited' },
+          { id: '6', text: 'museum' },
+          { id: '2', text: 'have' },
+          { id: '5', text: 'this' },
+          { id: '3', text: 'already' },
+        ],
+      },
+      {
+        id: '3',
+        original: 'Мы никогда не путешествовали заграницу.',
+        translated: 'We have never traveled abroad',
+        translatedWords: [
+          { id: '3', text: 'never' },
+          { id: '4', text: 'traveled' },
+          { id: '5', text: 'abroad' },
+          { id: '2', text: 'have' },
+          { id: '1', text: 'We' },
+        ],
+      },
+      {
+        id: '4',
+        original: 'Она уже попробовала это блюдо.',
+        translated: 'She has already tried this dish',
+        translatedWords: [
+          { id: '4', text: 'tried' },
+          { id: '2', text: 'has' },
+          { id: '1', text: 'She' },
+          { id: '6', text: 'dish' },
+          { id: '5', text: 'this' },
+          { id: '3', text: 'already' },
+        ],
+      },
+      {
+        id: '5',
+        original: 'Я никогда не видел такую красоту.',
+        translated: 'I have never seen such beauty',
+        translatedWords: [
+          { id: '2', text: 'have' },
+          { id: '3', text: 'never' },
+          { id: '6', text: 'beauty' },
+          { id: '5', text: 'such' },
+          { id: '4', text: 'seen' },
+          { id: '1', text: 'I' },
+        ],
+      },
+    ]
+  },
+  {
+    drill_id: '2',
+    drill_name: 'Present Continous',
+    data: [
+      {
+        id: '1',
+        original: 'Я сейчас пишу письмо.',
+        translated: 'I am writing a letter right now',
+        translatedWords: [
+          { id: '2', text: 'am' },
+          { id: '1', text: 'I' },
+          { id: '7', text: 'now' },
+          { id: '6', text: 'right' },
+          { id: '3', text: 'writing' },
+          { id: '5', text: 'letter' },
+          { id: '4', text: 'a' },
+        ],
+      },
+      {
+        id: '2',
+        original: 'Они сейчас играют в футбол.',
+        translated: 'They are playing football right now',
+        translatedWords: [
+          { id: '1', text: 'They' },
+          { id: '6', text: 'right' },
+          { id: '3', text: 'playing' },
+          { id: '7', text: 'now' },
+          { id: '4', text: 'football' },
+          { id: '2', text: 'are' },
+        ],
+      },
+      {
+        id: '3',
+        original: 'Мы сейчас обедаем.',
+        translated: 'We are having lunch right now',
+        translatedWords: [
+          { id: '3', text: 'having' },
+          { id: '1', text: 'We' },
+          { id: '6', text: 'right' },
+          { id: '4', text: 'lunch' },
+          { id: '7', text: 'now' },
+          { id: '2', text: 'are' },
+        ],
+      },
+      {
+        id: '4',
+        original: 'Она сейчас читает книгу.',
+        translated: 'She is reading a book right now',
+        translatedWords: [
+          { id: '4', text: 'a' },
+          { id: '2', text: 'is' },
+          { id: '3', text: 'reading' },
+          { id: '6', text: 'right' },
+          { id: '7', text: 'now' },
+          { id: '1', text: 'She' },
+          { id: '5', text: 'book' },
+        ],
+      },
+      {
+        id: '5',
+        original: 'Я сейчас смотрю телевизор.',
+        translated: 'I am watching TV right now',
+        translatedWords: [
+          { id: '2', text: 'am' },
+          { id: '1', text: 'I' },
+          { id: '3', text: 'watching' },
+          { id: '6', text: 'right' },
+          { id: '7', text: 'now' },
+          { id: '4', text: 'TV' },
+        ],
+      },
+    ]
+  }
+]
+
+

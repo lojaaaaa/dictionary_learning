@@ -10,11 +10,13 @@ export const TheoryHome = (props: Props) => {
       <h2 className={style.title}>Теория</h2>
       <ul className={style.cards}>
         <li className={style.card}>
+            <img src="/1.png" alt="" />
             <Link to={`verb-forms`}>
                 Времена глаголов
             </Link>
         </li>
         <li className={style.card}>
+          <img src="/1.png" alt="" />
           <Link to={`verb`}>
             Глаголы
           </Link>
