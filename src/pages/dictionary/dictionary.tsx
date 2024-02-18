@@ -67,36 +67,49 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
     setIsSortByDate(true);
   }
 
-  const handleFindDictionaryWord = () => {
-    if(searchValue){
+  const handleFindDictionaryWord = (e) => {
+    setSearchValue(e.target.value)
+    if(e.target.value){
       setFilteredDictionaryWords(
-        dictionaryWords.filter((d) => d.originalText.includes(searchValue))
+        dictionaryWords.filter((d) => d.originalText.startsWith(e.target.value))
       );
       setCurrentPage(1);
     }
+    if(e.target.value === ''){
+      setFilteredDictionaryWords(
+        dictionaryWords
+      );
+      setCurrentPage(1);
+    }
+  }
 
+  const clearInput = () => {
+    setFilteredDictionaryWords(
+      dictionaryWords
+    );
+    setCurrentPage(1);
+    setSearchValue('');
   }
   
   return (
     <div className={style.wrapper}>
-      <div className=" mt-8 mb-8">
+      <div className=" mt-8 mb-4">
         <div>
-          {/* <h2>Поиск слова</h2> */}
-          <div className="flex justify-end gap-4">
-            <input 
-              className={style.input}
-              value={searchValue} 
-              onChange={(e) => setSearchValue(e.target.value)} 
-              type="text" 
-              placeholder="Поиск слова"
-            />
-            <button onClick={handleFindDictionaryWord}>
-              Поиск
-            </button>
+          <div className="flex gap-4">
+            <div className="flex w-full relative">
+              <input 
+                value={searchValue}
+                className={style.input}
+                onChange={handleFindDictionaryWord}
+                type="text" 
+                placeholder="Введите слово"
+              />
+              <p onClick={clearInput} className={style.clearInput}>&times;</p>
+            </div>
+            <AddDictionaryWordButton />
           </div>
         </div>
       </div>
-
 
       <div>
         {
@@ -107,12 +120,33 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center gap-4">
                     <h3 className={style.title}>Показано слов: {currentWordIndex} из {filteredDictionaryWords.length}</h3>
-                    <AddDictionaryWordButton />
                   </div>
                   <div className="flex items-center gap-4">
-                    <button className={style.button} onClick={handleSortByAlphabet} disabled={isSortByAlphabet}>По алфавиту ↑</button>
-                    <button className={style.button} onClick={handleSortBoAlphabet} disabled={isSortBoAlphabet}>По алфавиту ↓</button>
-                    <button className={style.button} onClick={handleSortByDate} disabled={isSortByDate}>По дате ↑</button>
+                    <button 
+                      className={style.button} 
+                      onClick={handleSortByAlphabet} 
+                      disabled={isSortByAlphabet}
+                      >
+                        По алфавиту ↑
+                      </button>
+                    <button 
+                      className={style.button} 
+                      onClick={handleSortBoAlphabet} 
+                      disabled={isSortBoAlphabet}
+                      >
+                        По алфавиту ↓
+                      </button>
+                    {
+                      searchValue === '' &&
+                      <button 
+                        className={style.button} 
+                        onClick={handleSortByDate} 
+                        disabled={isSortByDate}
+                        >
+                          По дате ↑
+                        </button>
+
+                    }
                   </div>
                 </div>
                 {displayedDictionaryWords?.map(el =>
@@ -132,7 +166,7 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
                 setCurrentPage={setCurrentPage}
               />
             </>
-          : <p>Пока здесь пусто</p>
+          : <p className={style.empty}>Пока здесь пусто...</p>
         }
       </div>
     </div>

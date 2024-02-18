@@ -8,7 +8,7 @@ const AddDictionaryWordButtonView = () => {
   return (
     <>
       <AddDictionaryWordDialog />
-      <button className={style.button} onClick={() => openAddWordDialog()}>Добавить слово</button>
+      <button className={style.button} onClick={() => openAddWordDialog()}>+</button>
     </>
   )
 }
