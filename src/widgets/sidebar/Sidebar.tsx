@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import style from './sidebar.module.scss'
+import { HomeIcon, DictionaryIcon, KnowledgeIcon } from "src/shared/ui/icons";
 
 export const Sidebar = () => {
   const location = useLocation();
@@ -7,7 +8,7 @@ export const Sidebar = () => {
   const isActive = (path: string) => {
     let activeItem
     if(path !== '/'){
-      activeItem = location.pathname.includes(path) ? style.active : style.item
+      activeItem = location.pathname.includes(path)? style.active : style.item
     }
     else{
       activeItem = location.pathname === path ? style.active : style.item
@@ -19,22 +20,17 @@ export const Sidebar = () => {
   return (
     <header className={style.sidebar}>
       <NavLink to={`/`} className={isActive('/')}>
-        <img src="./home.svg" alt="home" />
+        <HomeIcon size="l"/>
       </NavLink>
       <ul className={style.list}>
-        {/* <li className={isActive('/')} >
-          <NavLink to={`/`}>
-            <img src="./notification.svg" alt="notification" />
-          </NavLink>
-        </li> */}
         <li className={isActive('/theory')}>
           <NavLink to={`/theory`}>
-            <img src="./knowledge.svg" alt="knowledge" />
+          <KnowledgeIcon size="l"/>
           </NavLink>
         </li>
         <li className={isActive('/dictionary')}>
           <NavLink to={`/dictionary`}>
-            <img src="./dictionary.svg" alt="dictionary" />
+            <DictionaryIcon size="l"/>
           </NavLink>
         </li>
       </ul>

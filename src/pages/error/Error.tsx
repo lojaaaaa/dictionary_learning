@@ -3,7 +3,7 @@ import style from './error.module.scss'
 
 export const ErrorPage = () => {
 
-  const error = useRouteError();
+  const error: any = useRouteError();
   return (
     <div className={style.wrapper}>
       <h1 className={style.title}>Oops!</h1>
