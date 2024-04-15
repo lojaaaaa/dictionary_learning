@@ -2,6 +2,9 @@ import {AddDictionaryWordDialog} from './AddDictionaryWordDialog';
 import { reflect } from "@effector/reflect"
 import { openAddWordDialog } from '../model';
 import style from './AddDictionaryWordDialog.module.scss'
+import { Button } from 'src/shared/ui';
+
+
 
 const AddDictionaryWordButtonView = () => {
 

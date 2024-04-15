@@ -10,6 +10,7 @@ import Pagination from 'src/shared/ui/pagination/Pagination';
 
 import style from './dictionary.module.scss'
 import SortPanel from 'src/widgets/sort-panel/sort-panel';
+import { Button } from "src/shared/ui";
 
 
 interface DictionaryProps {
@@ -103,7 +104,6 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
         />
         <AddDictionaryWordButton />
       </div>
-
       <div>
         {
           filteredDictionaryWords?.length > 0

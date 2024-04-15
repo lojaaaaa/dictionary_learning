@@ -1,5 +1,6 @@
 import React from 'react'
 import style from './sort-panel.module.scss'
+import { Button } from 'src/shared/ui';
 
 interface Props {
   handleSort: (sortType: 'asc' | 'desc' | 'date') => void;
@@ -17,29 +18,29 @@ const SortPanel = ({
   isSortByDate,
 }: Props) => (
     <div className="flex items-center gap-4">
-      <button 
-        className={style.button} 
+      <Button
+        style={{ fontSize: '16px' }}
         onClick={() => handleSort('asc')} 
         disabled={isSortByAlphabet}
       >
         По алфавиту ↑
-      </button>
-      <button 
-        className={style.button} 
+      </Button>
+      <Button 
+        style={{ fontSize: '16px' }}
         onClick={() => handleSort('desc')} 
         disabled={isSortBoAlphabet}
       >
         По алфавиту ↓
-      </button>
+      </Button>
       {
         searchValue === '' &&
-          <button 
-            className={style.button} 
+          <Button
+            style={{ fontSize: '16px' }} 
             onClick={() => handleSort('date')} 
             disabled={isSortByDate}
           >
             По дате ↑
-          </button>
+          </Button>
       }
     </div>
   )

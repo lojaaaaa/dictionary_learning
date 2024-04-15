@@ -77,78 +77,74 @@ export const Drill = ({items}: Props) => {
   
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className={style.wrapper}>
-        <h1 className={style.title}>Тренажер</h1>
-        {
-          !isClickedComplete
-          ? <div className={style.content}>
-            <div className={style.drillPanel}>
-              <p className={style.drillTitle}>
-                {currentSentence.original}
-              </p>
-              <p className={style.drillText}>
-                {updatedCurrentSentence.translatedWords.map((word) => word.text).join(' ')}
-              </p>
-            </div>
-            <Droppable direction="horizontal" droppableId="words">
-              {(provided) => (
-                <div 
-                  className={style.wordsList} 
-                  ref={provided.innerRef} 
-                  {...provided.droppableProps}
-                >
-                  {updatedCurrentSentence.translatedWords.map((el, index) => (
-                    <Draggable key={el.id} draggableId={el.id} index={index}>
-                      {(provided) => (
-                        <div
-                          className={style.wordsItem}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <p>{el.text}</p>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                </div>
-              )}
-            </Droppable>
-            {error ? <ErrorLabel>{error}</ErrorLabel> : null}
-            {currentSentenceIndex < sentences.length - 1
-            ?
-              <button 
-                className={style.buttonNext} 
-                onClick={handleNextSentence}
-              >
-                Следующий вопрос
-              </button>
-            :             
-              <button 
-                className={style.buttonNext} 
-                onClick={handleLastSentence}
-              >
-                Завершить
-              </button>
-            }
+      {
+        !isClickedComplete
+        ? <div className={style.content}>
+          <div className={style.drillPanel}>
+            <p className={style.drillTitle}>
+              {currentSentence.original}
+            </p>
+            <p className={style.drillText}>
+              {updatedCurrentSentence.translatedWords.map((word) => word.text).join(' ')}
+            </p>
           </div>
-          : <div className='flex flex-col gap-6'>
-              <p className='text-center text-xl'>Молодец, ты прошел!</p>
-              <div className='flex justify-center gap-6'>
-                <button 
-                  onClick={() => setIsClickedComplete(false)}>
-                  Пройти еще раз
-                </button>
-                <button>
-                  <Link to={`/`}>
-                    Вернуться к тренажерам
-                  </Link>
-                </button>
+          <Droppable direction="horizontal" droppableId="words">
+            {(provided) => (
+              <div 
+                className={style.wordsList} 
+                ref={provided.innerRef} 
+                {...provided.droppableProps}
+              >
+                {updatedCurrentSentence.translatedWords.map((el, index) => (
+                  <Draggable key={el.id} draggableId={el.id} index={index}>
+                    {(provided) => (
+                      <div
+                        className={style.wordsItem}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <p>{el.text}</p>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
               </div>
+            )}
+          </Droppable>
+          {error ? <ErrorLabel>{error}</ErrorLabel> : null}
+          {currentSentenceIndex < sentences.length - 1
+          ?
+            <button 
+              className={style.buttonNext} 
+              onClick={handleNextSentence}
+            >
+              Следующий вопрос
+            </button>
+          :             
+            <button 
+              className={style.buttonNext} 
+              onClick={handleLastSentence}
+            >
+              Завершить
+            </button>
+          }
+        </div>
+        : <div className='flex flex-col gap-6'>
+            <p className='text-center text-xl'>Молодец, ты прошел!</p>
+            <div className='flex justify-center gap-6'>
+              <button 
+                onClick={() => setIsClickedComplete(false)}>
+                Пройти еще раз
+              </button>
+              <button>
+                <Link to={`/`}>
+                  Вернуться к тренажерам
+                </Link>
+              </button>
             </div>
-        }
-
-      </div>
+          </div>
+      }
     </DragDropContext>
 
   )
