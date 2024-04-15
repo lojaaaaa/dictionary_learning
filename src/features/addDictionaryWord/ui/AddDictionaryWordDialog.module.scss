@@ -40,7 +40,11 @@
   background-color: rgb(94, 124, 244);
   color: rgb(255, 255, 255);
   font-size: 18px;
-  padding: 8px 16px;
-  padding: 10px;
-  font-size: 16px;
+  font-size: 24px;
+
+  transition: all .3s;
+
+  &:hover {
+    opacity: .8;
+  }
 }

@@ -3,10 +3,14 @@ import { FC, useEffect, useState } from "react"
 
 import { IDictionary } from "src/entities/dictionary/model";
 import { DictionaryItem, dictionaryEntity } from 'src/entities/dictionary/index';
-import {AddDictionaryWordButton} from 'src/features/addDictionaryWord/ui/AddDictionaryWordButton';
+import { AddDictionaryWordButton } from 'src/features/addDictionaryWord/ui/AddDictionaryWordButton';
+import Search from 'src/widgets/search/search';
 import Pagination from 'src/shared/ui/pagination/Pagination';
 
+
 import style from './dictionary.module.scss'
+import SortPanel from 'src/widgets/sort-panel/sort-panel';
+import { Button } from "src/shared/ui";
 
 
 interface DictionaryProps {
@@ -15,10 +19,6 @@ interface DictionaryProps {
 
 export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
 
-  useEffect(() => {
-    setFilteredDictionaryWords(dictionaryWords);
-  }, [dictionaryWords])
-
   const [isSortByAlphabet, setIsSortByAlphabet] = useState(false);
   const [isSortBoAlphabet, setIsSortBoAlphabet] = useState(false);
   const [isSortByDate, setIsSortByDate] = useState(true);
@@ -26,6 +26,7 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
   const [searchValue, setSearchValue] = useState('');
   const [filteredDictionaryWords, setFilteredDictionaryWords] = useState(dictionaryWords);
 
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 8;
 
@@ -38,63 +39,70 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
 
   const displayedDictionaryWords = filteredDictionaryWords.slice(firstWordIndex, lastWordIndex);
 
-  const handleSortByAlphabet = () => {
-    let sortedDictionaryWords: IDictionary[] = [];
-    sortedDictionaryWords = [...filteredDictionaryWords]
-      .sort((a, b) =>a.originalText.localeCompare(b.originalText));
-
-    setFilteredDictionaryWords(sortedDictionaryWords);
-    setIsSortByAlphabet(true);
-    setIsSortBoAlphabet(false);
-    setIsSortByDate(false);
-  }
-
-  const handleSortBoAlphabet = () => {
-    let sortedDictionaryWords: IDictionary[] = [];
-    sortedDictionaryWords = [...filteredDictionaryWords]
-      .sort((a, b) =>b.originalText.localeCompare(a.originalText));
-
-    setFilteredDictionaryWords(sortedDictionaryWords);
-    setIsSortByAlphabet(false);
-    setIsSortBoAlphabet(true);
-    setIsSortByDate(false);
-  }
-
-  const handleSortByDate = () => {
-    setFilteredDictionaryWords(dictionaryWords);
-    setIsSortByAlphabet(false);
-    setIsSortBoAlphabet(false);
-    setIsSortByDate(true);
-  }
-
-  const handleFindDictionaryWord = () => {
-    if(searchValue){
-      setFilteredDictionaryWords(
-        dictionaryWords.filter((d) => d.originalText.includes(searchValue))
-      );
-      setCurrentPage(1);
+  // Sort
+  const handleSort = (sortType: 'asc' | 'desc' | 'date') => {
+    let sortedWords = [...filteredDictionaryWords];
+  
+    switch (sortType) {
+      case 'asc':
+        sortedWords.sort((a, b) => a.originalText.localeCompare(b.originalText));
+        setIsSortByAlphabet(true);
+        setIsSortBoAlphabet(false);
+        setIsSortByDate(false);
+        break;
+      case 'desc':
+        sortedWords.sort((a, b) => b.originalText.localeCompare(a.originalText));
+        setIsSortByAlphabet(false);
+        setIsSortBoAlphabet(true);
+        setIsSortByDate(false);
+        break;
+      case 'date':
+        sortedWords = dictionaryWords;
+        setIsSortByAlphabet(false);
+        setIsSortBoAlphabet(false);
+        setIsSortByDate(true);
+        break;
     }
-
+  
+    setFilteredDictionaryWords(sortedWords);
   }
+
+  // Search
+  const handleFindDictionaryWord = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchValue = e.target.value.toLowerCase();
+    const searchedDictionaryWords = dictionaryWords.filter((word) => 
+      word.originalText.toLowerCase().startsWith(newSearchValue));
+  
+    setFilteredDictionaryWords(newSearchValue ? searchedDictionaryWords : dictionaryWords);
+    setSearchValue(newSearchValue);
+    setCurrentPage(1);
+  }
+
+  const clearSearchInput = () => {
+    setFilteredDictionaryWords(dictionaryWords);
+    setCurrentPage(1);
+    setSearchValue('');
+  }
+
+  useEffect(() => {
+    setFilteredDictionaryWords(dictionaryWords);
+  }, [dictionaryWords])
+
+  useEffect(() => {
+    if (searchValue === '') {
+      handleSort('date');
+    }
+  }, [searchValue]);
   
   return (
     <div className={style.wrapper}>
-      <div className=" mt-8 mb-8">
-        <div>
-          {/* <h2>Поиск слова</h2> */}
-          <div className="flex justify-end gap-4">
-            <input 
-              className={style.input}
-              value={searchValue} 
-              onChange={(e) => setSearchValue(e.target.value)} 
-              type="text" 
-              placeholder="Поиск слова"
-            />
-            <button onClick={handleFindDictionaryWord}>
-              Поиск
-            </button>
-          </div>
-        </div>
+      <div className="flex gap-4 mt-8 mb-4">
+        <Search 
+          value={searchValue} 
+          onChangeValue={handleFindDictionaryWord} 
+          clearInput={clearSearchInput}
+        />
+        <AddDictionaryWordButton />
       </div>
       <div>
         {
@@ -103,25 +111,28 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
             <>
               <ul className={style.list}>
                 <div className="flex justify-between items-center mb-6">
-                  <div className="flex items-center gap-4">
-                    <h3 className={style.title}>Показано слов: {currentWordIndex} из {filteredDictionaryWords.length}</h3>
-                    <AddDictionaryWordButton />
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <button className={style.button} onClick={handleSortByAlphabet} disabled={isSortByAlphabet}>По алфавиту ↑</button>
-                    <button className={style.button} onClick={handleSortBoAlphabet} disabled={isSortBoAlphabet}>По алфавиту ↓</button>
-                    <button className={style.button} onClick={handleSortByDate} disabled={isSortByDate}>По дате ↑</button>
-                  </div>
-                </div>
-                {displayedDictionaryWords?.map(el =>
-                  <DictionaryItem 
-                    id={el.id}
-                    key={el.id} 
-                    originalText={el.originalText}
-                    transcription={el.transcription}
-                    translatedText={el.translatedText}
+                  <h3 className={style.title}>
+                    Показано слов: {currentWordIndex} из {filteredDictionaryWords.length}
+                  </h3>
+                  <SortPanel 
+                    handleSort={handleSort} 
+                    searchValue={searchValue}
+                    isSortByAlphabet={isSortByAlphabet}
+                    isSortBoAlphabet={isSortBoAlphabet}
+                    isSortByDate={isSortByDate}
                   />
-                )}
+                </div>
+                {
+                  displayedDictionaryWords?.map(el =>
+                    <DictionaryItem 
+                      id={el.id}
+                      key={el.id} 
+                      originalText={el.originalText}
+                      transcription={el.transcription}
+                      translatedText={el.translatedText}
+                    />
+                  )
+                }
               </ul>
               <Pagination 
                 totalCount={filteredDictionaryWords.length}
@@ -130,11 +141,7 @@ export const DictionaryView: FC<DictionaryProps> = ({dictionaryWords}) =>{
                 setCurrentPage={setCurrentPage}
               />
             </>
-          : 
-          <div className="flex items-center gap-4">
-            <p>Пока здесь пусто</p>
-            <AddDictionaryWordButton />
-          </div>
+          : <p className={style.empty}>Пока здесь пусто...</p>
         }
       </div>
     </div>

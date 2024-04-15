@@ -1,5 +1,6 @@
 import { createEffect, createEvent, createStore } from "effector";
 import { sample } from "effector/effector.mjs";
+import { getDataFromApi } from "src/shared/api/api";
 import { DICTIONARY_WORDS } from "src/shared/config";
 import { saveToLocalStorage } from "src/shared/libs/saveToLocalStorage";
 import { v4 as uuidv4 } from 'uuid';
@@ -23,10 +24,9 @@ export const removeDictionaryWord = createEvent<string>()
 
 export const getTranslatedTextFx = createEffect(async(word: IDictionary) => {
   try {
-    // const url = `https://api.mymemory.translated.net/get?q=${word.originalText}!&langpair=EN|RU`
-    const url = `https://dictionary.skyeng.ru/api/public/v1/words/search?search=${word.originalText}`
-    const res = await fetch(url)
-    const data = await res.json()
+    const data = await getDataFromApi(
+      `https://dictionary.skyeng.ru/api/public/v1/words/search?search=${word.originalText}`
+    );
     return {
       ...word, 
       transcription: `[${data[0].meanings[0].transcription}]`, 
@@ -38,7 +38,6 @@ export const getTranslatedTextFx = createEffect(async(word: IDictionary) => {
   }
 })
 
-
 sample({
   clock: updateDictionaryWord,
   source: $dictionaryWords,
@@ -49,7 +48,6 @@ sample({
   ),
   target: $dictionaryWords, 
 })
-
 
 sample({
   clock: addToTranslate,

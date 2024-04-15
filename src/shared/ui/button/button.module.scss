@@ -1,0 +1,24 @@
+.button{
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 18px;
+  padding: 10px 20px;
+  max-width: 400px;
+  border-radius: 6px;
+  transition: all .3s;
+
+  &:hover {
+    opacity: .8;
+  }
+}
+
+.primary {
+  background-color: rgb(94, 124, 244);
+  color: rgb(255, 255, 255);
+}
+
+.secondary {
+  background-color: rgb(255, 255, 255);
+  color: rgb(94, 124, 244);
+  border: 1px solid rgb(94, 124, 244);
+}

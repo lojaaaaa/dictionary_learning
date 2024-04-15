@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { removeDictionaryWord, updateDictionaryWord } from '../../model';
 import style from './dictionary-item.module.scss'
-import { listenTranslate } from 'src/shared/libs/saveToLocalStorage';
+import { listenTranslate } from 'src/shared/libs/listen';
 
 
 interface PropsTranslateItem {
@@ -20,37 +20,37 @@ export const DictionaryItem = ({
 
   const [isEditItem, setIsEditItem] = useState<boolean>(false)
 
-  const [editedOriginalText, setEditedOriginalText] = useState<string>(originalText)
-  const [editedTranscription, setEditedTranscription] = useState<string>(transcription)
-  const [editedTranslatedText, setEditedTranslatedText] = useState<string>(translatedText)
+  const [editedOriginalText, setEditedOriginalText] = useState<string>(originalText);
+  const [editedTranscription, setEditedTranscription] = useState<string>(transcription);
+  const [editedTranslatedText, setEditedTranslatedText] = useState<string>(translatedText);
 
 
   const handleListen = () =>{
-    listenTranslate(originalText)
+    listenTranslate(originalText);
   }
 
   const handleRemove = () =>{
-    removeDictionaryWord(id)
+    removeDictionaryWord(id);
   }
 
   const handleUpdate = () =>{
-    setIsEditItem(prev => !prev)
+    setIsEditItem(prev => !prev);
     const editedDictionaryWord = 
     { 
       id,
       originalText: editedOriginalText, 
       transcription: editedTranscription, 
       translatedText: editedTranslatedText
-    }
-    updateDictionaryWord(editedDictionaryWord)
+    };
+    updateDictionaryWord(editedDictionaryWord);
   }
 
   const handleToggleUpdate = () =>{
-    setIsEditItem(prev => !prev)
-    if(isEditItem){
-      setEditedOriginalText(originalText)
-      setEditedTranscription(transcription)
-      setEditedTranslatedText(translatedText)
+    setIsEditItem(prev => !prev);
+    if (isEditItem) {
+      setEditedOriginalText(originalText);
+      setEditedTranscription(transcription);
+      setEditedTranslatedText(translatedText);
     }
   }
 
@@ -63,7 +63,6 @@ export const DictionaryItem = ({
           src="./listen.svg" 
           alt="listen" 
         />
-
         <input 
           readOnly={!isEditItem} 
           className={style.originalText} 
@@ -80,6 +79,7 @@ export const DictionaryItem = ({
         value={editedTranscription} 
         onChange={e => setEditedTranscription(e.target.value)}
       />
+      
       <span className={style.dash}>-</span>
 
       <input 

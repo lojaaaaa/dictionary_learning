@@ -1,0 +1,21 @@
+.input{
+  width: 100%;
+  padding: 15px;
+  padding-left: 45px;
+  outline: 0;
+  &::placeholder{
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
+
+.clearInput{
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  cursor: pointer;
+  color: rgb(151, 151, 151);
+  font-size: 32px;
+  font-weight: 300;
+}
